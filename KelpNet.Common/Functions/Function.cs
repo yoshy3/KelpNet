@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace KelpNet
 {
@@ -15,18 +17,23 @@ namespace KelpNet
 
         public NdArray<T>[] Parameters { get; set; } = { };
 
+        [JsonIgnore]
         [field: NonSerialized]
         public List<NdArray<T>[]> PrevInputs { get; set; } = new List<NdArray<T>[]>();
 
+        [JsonIgnore]
         [field: NonSerialized]
         public List<NdArray<T>[]> UsedPrevInputs { get; set; } = new List<NdArray<T>[]>();
 
+        [JsonIgnore]
         [field: NonSerialized]
         public FunctionOptional<T> Forward { get; set; }
 
+        [JsonIgnore]
         [field: NonSerialized]
         public FunctionOptional<T> Predict { get; set; }
 
+        [JsonIgnore]
         [field: NonSerialized]
         public ActionOptional<T> Backward { get; set; }
 

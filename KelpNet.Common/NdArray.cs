@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 #if DOUBLE
 #elif NETSTANDARD2_1
@@ -19,31 +20,31 @@ namespace KelpNet
     {
         public string Name = "NdArray";
 
-        public T[] Data;
+        public T[] Data { get; set; }
 
-        [NonSerialized]
+        [JsonIgnore]
         public T[] Grad;
 
         //各関数内でまとめて実行されるバッチの数を示し、Loss関数内の割引で使用される
         public int BatchCount = 1;
 
         //このNdArrayの各次元のサイズ
-        public int[] Shape;
+        public int[] Shape { get; set; }
 
         //Shapeから算出されるLengthで、DataのLengthとは異なる
-        public int Length;
+        public int Length { get; set; }
 
         //関数によって使用された回数をカウントしBackward動作のタイミングを図る
-        [NonSerialized]
-        public int UseCount;
+        [JsonIgnore]
+        public int UseCount { get; set; }
 
         //自身が関数から生成された場合、その関数をここに保存する
-        [NonSerialized]
-        public IFunction<T> ParentFunc;
+        [JsonIgnore]
+        public IFunction<T> ParentFunc { get; set; }
 
         //Updateを行わずに実行されたBackwardの回数をカウントし、Optimizer実行時に使用する
-        [NonSerialized]
-        public int TrainCount;
+        [JsonIgnore]
+        public int TrainCount { get; set; }
 
         public NdArray(Array array, bool asBatch = false, IFunction<T> parentFunc = null)
         {
